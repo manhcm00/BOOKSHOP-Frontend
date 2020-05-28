@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RecipeReviewCard(props) {
 	const classes = useStyles();
-    const [ expanded, setExpanded ] = React.useState(false);
+	const [ expanded, setExpanded ] = React.useState(false);
+	const {product} = props
 
 	return (
 		<Card className={classes.root} style={{ marginTop: '30px' }}>
@@ -49,7 +50,7 @@ export default function RecipeReviewCard(props) {
 						<MoreVertIcon />
 					</IconButton>
 				}
-				title="Shrimp and Chorizo Paella"
+				title={product.name}
 			/>
 			<CardMedia
 				className={classes.media}
@@ -60,6 +61,9 @@ export default function RecipeReviewCard(props) {
 				<Typography variant="body2" color="textSecondary" component="p">
 					This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add
 					1 cup of frozen peas along with the mussels, if you like.
+				</Typography>
+				<Typography style={{color: '#e74c3c'}}>
+					Price ${product.price}
 				</Typography>
 			</CardContent>
 			<CardActions disableSpacing>

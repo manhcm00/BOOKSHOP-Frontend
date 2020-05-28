@@ -68,7 +68,7 @@ export default function SwipeableTemporaryDrawer() {
 	const BurgerStyle = {
 		width: '25px',
 		height: '3px',
-		backgroundColor: 'rgb(226, 226, 226)',
+		backgroundColor: 'rgba(47, 53, 66,1.0)',
 		margin: '5px',
 		transition: 'all 0.3s ease'
 	};

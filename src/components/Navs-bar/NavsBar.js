@@ -12,8 +12,12 @@ export default function NavsBar(props) {
 
 	let history = useHistory();
 
-	function handleClick() {
+	function handleClickLogin() {
 		history.push('/users/login');
+	}
+
+	function handleCartLick() {
+		history.push('/order');
 	}
 
 	return (
@@ -36,18 +40,20 @@ export default function NavsBar(props) {
 				</li>
 				{!isAuthentication ? null : (
 					<Badge badgeContent={props.cart.length} color="secondary">
-						<ShoppingCartIcon />
+						<ShoppingCartIcon onClick={handleCartLick} />
 					</Badge>
 				)}
 			</ul>
 			<div className="burger">
-				<Badge badgeContent={props.cart.length} color="secondary">
-					<ShoppingCartIcon />
-				</Badge>
+				{!isAuthentication ? null : (
+					<Badge badgeContent={props.cart.length} color="secondary">
+						<ShoppingCartIcon onClick={handleCartLick} />
+					</Badge>
+				)}
 				<Drawer />
 			</div>
 			{isAuthentication ? null : (
-				<Button color="warning" onClick={handleClick} style={{fontWeight: "600"}}>
+				<Button color="warning" onClick={handleClickLogin} style={{ fontWeight: '600' }}>
 					Login
 				</Button>
 			)}

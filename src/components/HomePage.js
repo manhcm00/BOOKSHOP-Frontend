@@ -6,22 +6,38 @@ import { CartContext } from '../Context/CartContext';
 import NavsBar from './Navs-bar/NavsBar';
 import CardProduct from './CardProduct';
 import Pagination from '@material-ui/lab/Pagination';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const HomePage = () => {
 	const [ products, setProducts ] = useState([]);
 
+	const [ loading, setLoading ] = useState(false);
+
 	const { cart, setCart } = useContext(CartContext);
 
-	useEffect(() => {
-		axios({
-			method: 'get',
-			url: '/products'
-		})
-			.then((response) => {
-				setProducts(response.data.products);
-			})
-			.catch((error) => console.log(error));
-	}, []);
+	const [ page, setPage ] = React.useState(1);
+	const handleChange = async (event: React.ChangeEvent<unknown>, value: number) => {
+		setPage(value);
+	};
+
+	useEffect(
+		() => {
+			async function getData() {
+				await setLoading(true);
+				await axios({
+					method: 'get',
+					url: '/products?page=' + (page - 1)
+				})
+					.then((response) => {
+						setProducts(response.data.products);
+					})
+					.catch((error) => console.log(error));
+				setLoading(false);
+			}
+			getData();
+		},
+		[ page ]
+	);
 
 	const addToCart = (product) => {
 		return () => {
@@ -38,17 +54,23 @@ const HomePage = () => {
 				<h1 style={{ margin: '50px' }}> OUR PRODUCT </h1>
 			</div>
 			<Container style={{ marginTop: '50px' }}>
-				<Row>
-					{products.map((product, index) => {
-						return (
-							<Col md="4" key={index}>
-								<CardProduct click={addToCart(product)} />
-							</Col>
-						);
-					})}
-				</Row>
-				<Row style={{padding: "50px", justifyContent: "center"}}>
-					<Pagination count={10} color="secondary" />
+				{!loading ? (
+					<Row>
+						{products.map((product, index) => {
+							return (
+								<Col md="4" key={index}>
+									<CardProduct click={addToCart(product)} product={product} />
+								</Col>
+							);
+						})}
+					</Row>
+				) : (
+					<Row style={{ justifyContent: 'center' }}>
+						<CircularProgress color="secondary" />
+					</Row>
+				)}
+				<Row style={{ padding: '50px', justifyContent: 'center' }}>
+					<Pagination count={10} color="secondary" page={page} onChange={handleChange} />
 				</Row>
 			</Container>
 		</div>

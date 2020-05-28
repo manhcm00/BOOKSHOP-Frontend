@@ -27,7 +27,7 @@ const Login = () => {
 		})
 			.then((response) => {
 				console.log(response.data);
-				setUser({ email: account.email });
+				setUser({ id: response.data.userId });
 				setToken(response.data.token);
 				setIsAuthentication(true);
 				setMessage('Log in successfully');

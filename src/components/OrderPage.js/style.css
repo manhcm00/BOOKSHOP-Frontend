@@ -1,0 +1,45 @@
+.OrderCard {
+	display: flex;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+	margin: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 800px;
+}
+
+.OrderCardImage img {
+	max-width: 120px;
+	max-height: 80px;
+}
+
+.TitlePlace {
+	flex: 1;
+	padding: 10px;
+}
+
+.TitlePlace h1 {
+	margin: 0px;
+}
+
+.Price {
+	border-left: 1px solid rgba(44, 62, 80, 0.3);
+	padding: 10px;
+	width: 10%;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+}
+
+.Info form {
+	width: 900px;
+	display: flex;
+	flex-direction: column;
+}
+
+.OrderPage {
+	padding: 20px;
+}
+
+.CustomerInfomation h3 {
+	text-indent: 1.5em;
+}
