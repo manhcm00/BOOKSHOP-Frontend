@@ -12,6 +12,8 @@ import InforForm from './InforForm';
 import Bill from './Bill';
 import { useHistory } from 'react-router-dom';
 import { CartContext } from '../../Context/CartContext';
+import { AuthContext } from '../../Context/AuthContext';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,24 +36,39 @@ export default function HorizontalLinearStepper() {
 	let history = useHistory();
 	const classes = useStyles();
 	const { cart } = React.useContext(CartContext);
+	const { isAuthentication, token } = React.useContext(AuthContext);
 	const [ activeStep, setActiveStep ] = React.useState(0);
 	const [ skipped, setSkipped ] = React.useState(new Set());
-	const [ userInfo, setUserInfo ] = React.useState({ name: '', phone: '', email: '', address: '', comment: '' });
+	const [ message, setMessage ] = React.useState('');
+	const [ reciverInfo, setReciverInfo ] = React.useState({
+		reciverName: '',
+		reciverPhone: '',
+		reciverEmail: '',
+		reciverAddress: '',
+		comment: ''
+	});
 	const steps = getSteps();
+
+	React.useEffect(() => {
+		if(!isAuthentication) {
+			history.push('/users/login')
+		}
+	}, [])
 
 	const onChangeHandler = (e) => {
 		e.preventDefault();
-		setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+		setReciverInfo({ ...reciverInfo, [e.target.name]: e.target.value });
+		console.log(reciverInfo);
 	};
 
-	function getStepContent(step) {
+	const getStepContent = (step) => {
 		switch (step) {
 			case 0:
 				return <OrderList />;
 			case 1:
-				return <InforForm setInfo={onChangeHandler} info={userInfo} />;
+				return <InforForm setInfo={onChangeHandler} info={reciverInfo} />;
 			case 2:
-				return <Bill info={userInfo} />;
+				return <Bill info={reciverInfo} />;
 			default:
 				return 'Unknown step';
 		}
@@ -61,7 +78,7 @@ export default function HorizontalLinearStepper() {
 		return step === 1;
 	};
 
-	function backToHomePage() {
+	const backToHomePage = () => {
 		history.push('/');
 	}
 
@@ -86,6 +103,30 @@ export default function HorizontalLinearStepper() {
 
 	const handleReset = () => {
 		setActiveStep(0);
+	};
+
+	const submitHandler = () => {
+		axios({
+			method: 'post',
+			url: '/orders',
+			headers: {
+				Authorization: 'Bearer ' + token
+			},
+			data: {
+				...reciverInfo,
+				products: [ ...cart ],
+				total: cart.reduce((total, product) => {
+					return total + product.price;
+				}, 0)
+			}
+		})
+			.then((response) => {
+				console.log(response.data);
+				setMessage(response.data.message);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (
@@ -142,9 +183,11 @@ export default function HorizontalLinearStepper() {
 									color="primary"
 									className={classes.button}
 									disabled={activeStep !== steps.length - 1}
+									onClick={submitHandler}
 								>
 									Finish
 								</Button>
+								{message}
 							</div>
 						</div>
 					)}

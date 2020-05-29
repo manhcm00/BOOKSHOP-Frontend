@@ -10,30 +10,30 @@ export default function InforForm(props) {
 				<TextField
 					id="standard-basic"
 					label="Your Full Name"
-					name="name"
+					name="reciverName"
 					onChange={setInfo}
-					value={info.name.length > 0 ? info.name : null}
+					value={info.reciverName.length > 0 ? info.reciverName : null}
 				/>
 				<TextField
 					id="standard-basic"
 					label="Phone Number"
-					name="phone"
+					name="reciverPhone"
 					onChange={setInfo}
-					value={info.phone.length > 0 ? info.phone : null}
+					value={info.reciverPhone.length > 0 ? info.reciverPhone : null}
 				/>
 				<TextField
 					id="standard-basic"
 					label="Email"
-					name="email"
+					name="reciverEmail"
 					onChange={setInfo}
-					value={info.email.length > 0 ? info.email : null}
+					value={info.reciverEmail.length > 0 ? info.reciverEmail : null}
 				/>
 				<TextField
 					id="standard-basic"
 					label="Address"
-					name="address"
+					name="reciverAddress"
 					onChange={setInfo}
-					value={info.address.length > 0 ? info.address : null}
+					value={info.reciverAddress.length > 0 ? info.reciverAddress : null}
 				/>
 				<TextField
 					id="standard-basic"

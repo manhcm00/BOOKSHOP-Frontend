@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import './loginPage.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Register = () => {
 	const [ account, setAccount ] = useState({ email: '', password: '' });
 
 	const [ message, setMessage ] = useState('');
+
+	let history = useHistory();
 
 	const onChangeHandler = (e) => {
 		e.preventDefault();
@@ -22,6 +25,7 @@ const Register = () => {
 			.then((response) => {
 				console.log(response.data);
 				setMessage('Sign up successfully');
+				history.push('/users/login')
 			})
 			.catch((error) => {
 				console.log(error.response.data.message);

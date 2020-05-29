@@ -33,11 +33,11 @@ export default function Bill(props) {
 	return (
 		<React.Fragment>
 			<div className="CustomerInfomation">
-				<h2>Customer information</h2>
-				<h3>Name: {info.name}</h3>
-				<h3>Phone number: {info.phone}</h3>
-				<h3>Email: {info.email}</h3>
-				<h3>Address: {info.address}</h3>
+				<h2>Reciver's information</h2>
+				<h3>Name: {info.reciverName}</h3>
+				<h3>Phone number: {info.reciverPhone}</h3>
+				<h3>Email: {info.reciverEmail}</h3>
+				<h3>Address: {info.reciverAddress}</h3>
 				<h3>Comment: {info.comment}</h3>
 			</div>
 			<h2>Your bill</h2>

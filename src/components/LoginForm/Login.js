@@ -74,7 +74,7 @@ const Login = () => {
 								Log In
 							</button>
 							<p>
-								<Link href="/users/signup">Sign up</Link>
+								<Link to="/users/signup">Sign up</Link>
 							</p>
 						</div>
 						<div className="sosmed">

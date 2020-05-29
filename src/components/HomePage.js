@@ -16,13 +16,13 @@ const HomePage = () => {
 	const { cart, setCart } = useContext(CartContext);
 
 	const [ page, setPage ] = React.useState(1);
-	const handleChange = async (event: React.ChangeEvent<unknown>, value: number) => {
+	const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setPage(value);
 	};
 
 	useEffect(
 		() => {
-			async function getData() {
+			const getData = async () => {
 				await setLoading(true);
 				await axios({
 					method: 'get',
@@ -33,7 +33,7 @@ const HomePage = () => {
 					})
 					.catch((error) => console.log(error));
 				setLoading(false);
-			}
+			};
 			getData();
 		},
 		[ page ]
