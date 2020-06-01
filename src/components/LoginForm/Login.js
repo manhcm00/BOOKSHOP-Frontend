@@ -31,7 +31,8 @@ const Login = () => {
 				setToken(response.data.token);
 				setIsAuthentication(true);
 				setMessage('Log in successfully');
-				localStorage.setItem('jwtToken', response.data.token);
+				sessionStorage.setItem('jwtToken', response.data.token);
+				sessionStorage.setItem('userId', response.data.userId);
 				history.push('/');
 			})
 			.catch((error) => {

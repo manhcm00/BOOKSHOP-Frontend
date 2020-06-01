@@ -29,14 +29,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-	return [ 'Verify your cart', "Fill the receiver's infomation", 'Your bill' ];
+	return [ 'Verify your cart', "Fill the receiver's infomation form", 'Your bill' ];
 }
 
 export default function HorizontalLinearStepper() {
 	let history = useHistory();
 	const classes = useStyles();
-	const { cart } = React.useContext(CartContext);
-	const { isAuthentication, token } = React.useContext(AuthContext);
+	const { cart, setCart } = React.useContext(CartContext);
+	const { isAuthentication, token, user } = React.useContext(AuthContext);
 	const [ activeStep, setActiveStep ] = React.useState(0);
 	const [ skipped, setSkipped ] = React.useState(new Set());
 	const [ message, setMessage ] = React.useState('');
@@ -50,15 +50,14 @@ export default function HorizontalLinearStepper() {
 	const steps = getSteps();
 
 	React.useEffect(() => {
-		if(!isAuthentication) {
-			history.push('/users/login')
+		if (!isAuthentication) {
+			history.push('/users/login');
 		}
-	}, [])
+	}, []);
 
 	const onChangeHandler = (e) => {
 		e.preventDefault();
 		setReciverInfo({ ...reciverInfo, [e.target.name]: e.target.value });
-		console.log(reciverInfo);
 	};
 
 	const getStepContent = (step) => {
@@ -72,7 +71,7 @@ export default function HorizontalLinearStepper() {
 			default:
 				return 'Unknown step';
 		}
-	}
+	};
 
 	const isStepOptional = (step) => {
 		return step === 1;
@@ -80,7 +79,7 @@ export default function HorizontalLinearStepper() {
 
 	const backToHomePage = () => {
 		history.push('/');
-	}
+	};
 
 	const isStepSkipped = (step) => {
 		return skipped.has(step);
@@ -98,6 +97,7 @@ export default function HorizontalLinearStepper() {
 	};
 
 	const handleBack = () => {
+		setMessage('');
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
@@ -110,11 +110,12 @@ export default function HorizontalLinearStepper() {
 			method: 'post',
 			url: '/orders',
 			headers: {
-				Authorization: 'Bearer ' + token
+				Authorization: 'Bearer ' + sessionStorage.getItem('jwtToken')
 			},
 			data: {
 				...reciverInfo,
 				products: [ ...cart ],
+				userId: user.id,
 				total: cart.reduce((total, product) => {
 					return total + product.price;
 				}, 0)
@@ -123,9 +124,19 @@ export default function HorizontalLinearStepper() {
 			.then((response) => {
 				console.log(response.data);
 				setMessage(response.data.message);
+				if (response.data.message === 'Order successfully') {
+					setTimeout(() => {
+						setCart([]);
+						history.push('/');
+					}, 3000);
+				} else if (response.data.message === 'Auth failed') {
+					setTimeout(() => {
+						history.push('/users/login');
+					}, 3000);
+				}
 			})
 			.catch((error) => {
-				console.log(error);
+				history.push('/users/login');
 			});
 	};
 

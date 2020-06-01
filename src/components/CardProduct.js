@@ -54,7 +54,7 @@ export default function RecipeReviewCard(props) {
 			/>
 			<CardMedia
 				className={classes.media}
-				image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
+				image={product.productImage}
 				title="Paella dish"
 			/>
 			<CardContent>

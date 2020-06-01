@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import Paper from '@material-ui/core/Paper';
+
 import { CartContext } from '../../Context/CartContext';
 import { AuthContext } from '../../Context/AuthContext';
 

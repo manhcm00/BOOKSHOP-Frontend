@@ -5,8 +5,22 @@ import Login from './components/LoginForm/Login';
 import Register from './components/LoginForm/Register';
 import CartProvider from './Context/CartContext';
 import OrderPage from './components/OrderPage.js/OrderPage';
+import { AuthContext } from './Context/AuthContext';
 
 function App() {
+	const { setUser, setToken, setIsAuthentication } = React.useContext(AuthContext);
+
+	React.useEffect(() => {
+		const beforeLoad = async () => {
+			if (sessionStorage.getItem('jwtToken') !== null && sessionStorage.getItem('userId') !== null) {
+				await setUser({ id: sessionStorage.getItem('user') });
+				await setToken(sessionStorage.getItem('jwtToken'));
+				await setIsAuthentication(true);
+			}
+		};
+		beforeLoad();
+	}, []);
+
 	return (
 		<Router>
 			<CartProvider>

@@ -9,6 +9,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
+import WorkIcon from '@material-ui/icons/Work';
+import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 
 const useStyles = makeStyles({
 	list: {
@@ -44,14 +48,33 @@ export default function SwipeableTemporaryDrawer() {
 			role="presentation"
 			onClick={toggleDrawer(anchor, false)}
 			onKeyDown={toggleDrawer(anchor, false)}
+			style={{ marginTop: '50px' }}
 		>
 			<List>
-				{[ 'Inbox', 'Starred', 'Send email', 'Drafts' ].map((text, index) => (
-					<ListItem button key={text}>
-						<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-						<ListItemText primary={text} />
-					</ListItem>
-				))}
+				<ListItem button key={'Home'}>
+					<ListItemIcon>
+						<HomeIcon />
+					</ListItemIcon>
+					<ListItemText primary={'Home'} />
+				</ListItem>
+				<ListItem button key={'Info'}>
+					<ListItemIcon>
+						<InfoIcon />
+					</ListItemIcon>
+					<ListItemText primary={'About'} />
+				</ListItem>
+				<ListItem button key={'Work'}>
+					<ListItemIcon>
+						<WorkIcon />
+					</ListItemIcon>
+					<ListItemText primary={'Work'} />
+				</ListItem>
+				<ListItem button key={'Projects'}>
+					<ListItemIcon>
+						<SpellcheckIcon />
+					</ListItemIcon>
+					<ListItemText primary={'Projects'} />
+				</ListItem>
 			</List>
 			<Divider />
 			<List>
